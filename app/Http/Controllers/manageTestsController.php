@@ -23,6 +23,11 @@ class manageTestsController extends Controller
             echo "test function checked";
         }
 
+        public function againtestfromdesktopgithub()
+        {
+            echo 'test again github desktop';
+        }
+
     public function paginationtestingfunction()
     {
         echo "pagination function checked";
