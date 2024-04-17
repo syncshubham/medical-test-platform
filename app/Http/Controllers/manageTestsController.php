@@ -18,6 +18,20 @@ class manageTestsController extends Controller
         return view("authenticatedviews.createtest");
     }
 
+    public function tagmutualusers()
+    {
+        $mutualusers = 55;
+        return $mutualusers;
+    }
+
+    public function tagnonmutualusers()
+    {
+        $mutualusers = 55;
+        return $mutualusers;
+    }
+
+
+
         public function mainrepotestingfunction()
         {
             echo "test function checked";
