@@ -33,6 +33,7 @@ class manageTestsController extends Controller
         echo "pagination function checked";
     }
 
+<<<<<<< Updated upstream
     public function scrollloadcontent()
     {
         echo "scroler checked";
@@ -40,6 +41,13 @@ class manageTestsController extends Controller
 
 
 
+=======
+    public function paginationtestingfunction()
+    {
+        echo "pagination function checked";
+    }
+
+>>>>>>> Stashed changes
     public function store_random_test_assigned(Request $request)
     {
         $request->validate([
