@@ -23,6 +23,11 @@ class manageTestsController extends Controller
             echo "test function checked";
         }
 
+    public function paginationtestingfunction()
+    {
+        echo "pagination function checked";
+    }
+
     public function store_random_test_assigned(Request $request)
     {
         $request->validate([
