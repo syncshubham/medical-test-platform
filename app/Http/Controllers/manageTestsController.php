@@ -23,8 +23,8 @@ class manageTestsController extends Controller
         echo "test function checked";
     }
 
-    // new testing from paginationbranch
-    
+    new testing();
+
     public function scrollloadcontent()
     {
         echo "scroler checked";
