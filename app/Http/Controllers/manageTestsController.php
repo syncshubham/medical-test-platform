@@ -30,6 +30,7 @@ class manageTestsController extends Controller
         echo "scroler checked";
     }
 
+    new function()
 
 
     public function store_random_test_assigned(Request $request)
