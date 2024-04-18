@@ -24,6 +24,10 @@ class manageTestsController extends Controller
             echo "test function checked";
         }
 
+    public function testingfunction()
+    {
+        echo "test function checked";
+    }
 
     public function store_random_test_assigned(Request $request)
     {
