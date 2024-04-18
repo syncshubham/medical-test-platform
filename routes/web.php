@@ -24,6 +24,7 @@ Route::get('privacy-policy', [HomePage::class, 'privacy_policy'])->name('privacy
 Route::get('terms-conditions', [HomePage::class, 'terms_conditions'])->name('terms_conditions');
 Route::get('refund-policy', [HomePage::class, 'refund_policy'])->name('refund_policy');
 
+// master/check/route
 
 Route::middleware([
     'auth:sanctum',
