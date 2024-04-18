@@ -302,4 +302,10 @@ class manageTestsController extends Controller
         session(['original_radom_assigned_test_id' => $assignedtest->id]); // Store the original assigned test ID in the session
         return view("authenticatedviews.editassigntestrandomly", compact("assignedtest"));
     }
+
+    public function paginationtestingfunction()
+    {
+        echo "test function checked";
+    }
+
 }
