@@ -18,17 +18,6 @@ class manageTestsController extends Controller
         return view("authenticatedviews.createtest");
     }
 
-
-        public function masterrepotestingfunction()
-        {
-            echo "test function checked";
-        }
-
-    public function testingfunction()
-    {
-        echo "test function checked";
-    }
-
     public function store_random_test_assigned(Request $request)
     {
         $request->validate([
