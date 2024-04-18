@@ -18,31 +18,9 @@ class manageTestsController extends Controller
         return view("authenticatedviews.createtest");
     }
 
-        public function mainrepotestingfunction()
-        {
-            echo "test function checked";
-        }
-
-        public function againtestfromdesktopgithub()
-        {
-            echo 'test again github desktop';
-        }
-
-    public function paginationtestingfunction()
+    public function mastertestingfunction()
     {
-        echo "pagination function checked";
-    }
-
-    public function scrollloadcontent()
-    {
-        echo "scroler checked";
-    }
-
-
-
-    public function paginationtestingfunction()
-    {
-        echo "pagination function checked";
+        echo "test function checked";
     }
 
     public function store_random_test_assigned(Request $request)
