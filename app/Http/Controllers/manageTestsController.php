@@ -23,16 +23,6 @@ class manageTestsController extends Controller
         echo "test function checked";
     }
 
-    new testing();
-
-    public function scrollloadcontent()
-    {
-        echo "scroler checked";
-    }
-
-    new function()
-
-
     public function store_random_test_assigned(Request $request)
     {
         $request->validate([
