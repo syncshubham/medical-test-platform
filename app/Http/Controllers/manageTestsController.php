@@ -18,7 +18,7 @@ class manageTestsController extends Controller
         return view("authenticatedviews.createtest");
     }
 
-    public function testingfunction()
+    public function paginationtestingfunction()
     {
         echo "test function checked";
     }
