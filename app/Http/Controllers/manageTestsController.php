@@ -18,11 +18,6 @@ class manageTestsController extends Controller
         return view("authenticatedviews.createtest");
     }
 
-    public function paginationtestingfunction()
-    {
-        echo "test function checked";
-    }
-
     public function store_random_test_assigned(Request $request)
     {
         $request->validate([
@@ -307,4 +302,10 @@ class manageTestsController extends Controller
         session(['original_radom_assigned_test_id' => $assignedtest->id]); // Store the original assigned test ID in the session
         return view("authenticatedviews.editassigntestrandomly", compact("assignedtest"));
     }
+
+    public function paginationtestingfunction()
+    {
+        echo "test function checked";
+    }
+
 }
