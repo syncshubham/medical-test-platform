@@ -38,7 +38,6 @@
 <th>S.no</th>
 <th>Test Name</th>
 <th>Parameters</th>
-<th>Action</th>
 </tr>
 </thead>
 <tbody>
@@ -59,20 +58,22 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
+
+
 <script>
-    $(function(){
-$(".tempdatatable").DataTable({
-    processing:true,
-    serverSide:true,
-    ajax:"{{route('manage.tests')}}",
-    columns:[
-        {data:'DT_RowIndex', name:'DT_RowIndex'},
+    $(document).ready(function() {
+        $('.tempdatatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('manage.tests') }}',
+            columns: [
+                {data:'DT_RowIndex', name:'DT_RowIndex'},
         {data:'name', name:'name'},
         {data:'parameters', name:'parameters'},
-        {data:'action', name:'action', orderable:false, searchable:false},
-    ]
-});
-});
+            ]
+        });
+    });
 </script>
 
 <!-- Include SweetAlert2 script -->

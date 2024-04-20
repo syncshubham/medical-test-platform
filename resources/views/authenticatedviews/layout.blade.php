@@ -216,7 +216,7 @@
         <a href="#"><span><i style="margin-right:5px;" class="fa-solid fa-vials"></i> Tests</span> <span class="menu-arrow"></span></a>
         <ul style="display: none;">
             <li><a href="{{route('create.test')}}">Create</a></li>
-            <li><a href="{{route('manage.tests')}}">Manage</a></li>
+            <li><a href="{{route('manage.testsview')}}">Manage</a></li>
         </ul>
     </li>
     <li class="submenu">

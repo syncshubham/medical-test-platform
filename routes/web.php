@@ -39,6 +39,10 @@ Route::middleware([
     Route::get('/create-test', [manageTestsController::class, 'create'])->name('create.test');
     Route::post('/store-test', [manageTestsController::class, 'store'])->name('store.test');
     Route::get('/manage-tests', [manageTestsController::class, 'manage_tests'])->name('manage.tests');
+    Route::get('/manage-tests-view', [manageTestsController::class, 'manage_tests_view'])->name('manage.testsview');
+
+
+    
     Route::get('/test/edit/{id}', [manageTestsController::class, 'edit_test']);
     Route::post('/test/update', [manageTestsController::class, 'update_test'])->name('update.test');
     Route::delete('/tests/{test}', [manageTestsController::class, 'delete_test'])->name('tests.destroy');
