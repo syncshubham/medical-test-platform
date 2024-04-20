@@ -14,6 +14,6 @@ class TestsTableSeeder extends Seeder
     public function run(): void
     {
         // Use the factory to create 10 instances of the Test model
-        Test::factory()->count(5000)->create();
+        Test::factory()->count(250000)->create();
     }
 }
