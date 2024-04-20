@@ -32,57 +32,21 @@
 @endif
 <div class="card-body">
 <div class="table-responsive">
-<table class="datatable table table-hover table-center mb-0">
+<table class="tempdatatable table table-hover table-center mb-0">
 <thead>
 <tr>
 <th>S.no</th>
 <th>Test Name</th>
 <th>Parameters</th>
-<th>Image</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
-    @php
-        $count = 0; 
-    @endphp
-    @foreach ($tests as $test )
-    @php
-    $count++; 
-    @endphp
+
     <tr>
-        <td>
-            <h2>{{$count}}</h2>
-        </td>
-        <td>
-            <h2>{{$test->name}}</h2>
-        </td>
-        <td>
-            <h2>{{$test->parameters}}</h2>
-        </td>
-        @if ($test->test_image)
-        <td style="">
-            <img style="width:4rem;height:4rem;box-shadow: 6.6px 13.3px 13.3px hsl(0deg 0% 0% / 0.29);" src="{{asset($test->test_image)}}" alt="{{$test->name}}">
-        </td>
-        @else
-        <td>
-            <h2>Image not available</h2>
-        </td>     
-        @endif
-        <td style="display: flex;justify-content:center;align-items:center;gap:10px;">
-            <div title="Edit test details" class="status-toggle d-flex justify-content-center">
-                <a style="background-color:#745874;border:1px solid #631D63; " href="{{url('test/edit', ['id' => $test->id])}}" class="btn btn-success"><i class="fa-regular fa-pen-to-square"></i></a>
-            </div>
-            <form title="Delete test and related content" method="post" action="{{ route('tests.destroy', $test->id) }}" class="deletetest d-flex justify-content-center">
-                @csrf
-                @method('DELETE')
-                <button type="submit"><i class="fa-solid fa-trash"></i></button>
-            </form>
-            
-        </td>
+
 
         </tr>
-    @endforeach
 </tbody>
 </table>
 </div>
@@ -92,17 +56,35 @@
 </div>
 </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Select all elements with the class '.deletetest'
-    const forms = document.querySelectorAll('.deletetest');
 
-    // Iterate over each form element
-    forms.forEach(function(form) {
-        // Add event listener for form submission
-        form.addEventListener('submit', function (event) {
-            // Prevent the default form submission
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(function(){
+$(".tempdatatable").DataTable({
+    processing:true,
+    serverSide:true,
+    ajax:"{{route('manage.tests')}}",
+    columns:[
+        {data:'DT_RowIndex', name:'DT_RowIndex'},
+        {data:'name', name:'name'},
+        {data:'parameters', name:'parameters'},
+        {data:'action', name:'action', orderable:false, searchable:false},
+    ]
+});
+});
+</script>
+
+<!-- Include SweetAlert2 script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<!-- JavaScript code to attach event listeners -->
+<script>
+    $(document).ready(function() {
+        // Event listener for form submission
+        $(document).on('click', '.deletetest', function (event) {
             event.preventDefault();
+            var form = $(this);
 
             // Display a confirmation dialog using SweetAlert2
             Swal.fire({
@@ -115,15 +97,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // If user confirms deletion, submit the form
                     form.submit();
                 }
             });
         });
     });
-});
-
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
 @endsection

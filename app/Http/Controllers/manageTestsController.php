@@ -10,6 +10,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Session; // Import the Session facade
+
 
 class manageTestsController extends Controller
 {
@@ -179,10 +182,36 @@ class manageTestsController extends Controller
         return redirect()->back()->with('Success', 'Test created Successfully');
     }
 
-    public function manage_tests()
+    public function manage_tests(Request $request)
     {
-        $tests = Test::orderBy("created_at", "desc")->get();
-        return view("authenticatedviews.managetests", compact("tests"));
+        if($request->ajax())
+        {
+
+
+            $tests = Test::latest()->get();
+            return DataTables::of($tests)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                            // Get the CSRF token from the session
+            $csrfToken = Session::token();
+                $btn = "<div style=\"display: flex;justify-content:center;align-items:center;gap:10px;\">
+                <div title=\"Edit test details\" class=\"status-toggle d-flex justify-content-center\">
+                    <a style=\"background-color:#745874;border:1px solid #631D63; \" href=\"" . url('test/edit', ['id' => $row->id]) . "\" class=\"btn btn-success\"><i class=\"fa-regular fa-pen-to-square\"></i></a>
+                </div>
+                <form title=\"Delete test and related content\" method=\"post\" action=\"" . route('tests.destroy', $row->id) . "\" class=\"deletetest d-flex justify-content-center\">
+                    <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\"> <!-- CSRF token -->
+                    <input type=\"hidden\" name=\"_method\" value=\"DELETE\"> <!-- HTTP method spoofing -->
+                    <button type=\"submit\"><i class=\"fa-solid fa-trash\"></i></button>
+                </form>
+            </div>";
+
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        
+        return view("authenticatedviews.managetests");
     }
 
     public function edit_test($id)
