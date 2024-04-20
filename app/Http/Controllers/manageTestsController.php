@@ -194,28 +194,28 @@ class manageTestsController extends Controller
             return DataTables::of($tests)
             ->addColumn('action', function($row){
                 // Get the CSRF token from the session
-$csrfToken = Session::token();
-    $btn = "<div style=\"display: flex;justify-content:center;align-items:center;gap:10px;\">
-    <div title=\"Edit test details\" class=\"status-toggle d-flex justify-content-center\">
-        <a style=\"background-color:#745874;border:1px solid #631D63; \" href=\"" . url('test/edit', ['id' => $row->id]) . "\" class=\"btn btn-success\"><i class=\"fa-regular fa-pen-to-square\"></i></a>
-    </div>
-    <form title=\"Delete test and related content\" method=\"post\" action=\"" . route('tests.destroy', $row->id) . "\" class=\"deletetest d-flex justify-content-center\">
-        <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\"> <!-- CSRF token -->
-        <input type=\"hidden\" name=\"_method\" value=\"DELETE\"> <!-- HTTP method spoofing -->
-        <button type=\"submit\"><i class=\"fa-solid fa-trash\"></i></button>
-    </form>
-</div>";
+                        $csrfToken = Session::token();
+                            $btn = "<div style=\"display: flex;justify-content:center;align-items:center;gap:10px;\">
+                            <div title=\"Edit test details\" class=\"status-toggle d-flex justify-content-center\">
+                                <a style=\"background-color:#745874;border:1px solid #631D63; \" href=\"" . url('test/edit', ['id' => $row->id]) . "\" class=\"btn btn-success\"><i class=\"fa-regular fa-pen-to-square\"></i></a>
+                            </div>
+                            <form title=\"Delete test and related content\" method=\"post\" action=\"" . route('tests.destroy', $row->id) . "\" class=\"deletetest d-flex justify-content-center\">
+                                <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\"> <!-- CSRF token -->
+                                <input type=\"hidden\" name=\"_method\" value=\"DELETE\"> <!-- HTTP method spoofing -->
+                                <button type=\"submit\"><i class=\"fa-solid fa-trash\"></i></button>
+                            </form>
+                        </div>";
 
-    return $btn;
-})
-->addColumn('index', function ($user) {
-    static $index = 0;
-    $index++;
-    return $index;
-})
-->rawColumns(['action'])
-            ->make(true);
-    }
+                            return $btn;
+                        })
+                        ->addColumn('index', function ($user) {
+                            static $index = 0;
+                            $index++;
+                            return $index;
+                        })
+                        ->rawColumns(['action'])
+                                    ->make(true);
+                            }
 
     public function edit_test($id)
     {
