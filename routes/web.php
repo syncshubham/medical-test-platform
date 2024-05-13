@@ -24,6 +24,9 @@ Route::get('privacy-policy', [HomePage::class, 'privacy_policy'])->name('privacy
 Route::get('terms-conditions', [HomePage::class, 'terms_conditions'])->name('terms_conditions');
 Route::get('refund-policy', [HomePage::class, 'refund_policy'])->name('refund_policy');
 
+Route::get('/search', [HomePage::class, 'search'])->name('search');
+Route::post('/manualsearch', [HomePage::class, 'manualsearch'])->name('manualsearch');
+Route::get('/get/quotes/{id}', [HomePage::class, 'get_quotes'])->name('get.quotes');
 
 Route::middleware([
     'auth:sanctum',
@@ -40,28 +43,17 @@ Route::middleware([
     Route::post('/store-test', [manageTestsController::class, 'store'])->name('store.test');
     Route::get('/manage-tests', [manageTestsController::class, 'manage_tests'])->name('manage.tests');
     Route::get('/manage-tests-view', [manageTestsController::class, 'manage_tests_view'])->name('manage.testsview');
-
-
-    
     Route::get('/test/edit/{id}', [manageTestsController::class, 'edit_test']);
     Route::post('/test/update', [manageTestsController::class, 'update_test'])->name('update.test');
     Route::delete('/tests/{test}', [manageTestsController::class, 'delete_test'])->name('tests.destroy');
-
-    
     Route::get('/assign-test-randomly', [manageTestsController::class, 'assign_test_randomly'])->name('assign.test.randomly');
-
     Route::get('/search/tests/data', [manageTestsController::class, 'search_tests_data'])->name('search.tests.data');
     Route::get('/search/labs/data', [manageTestsController::class, 'search_labs_data'])->name('search.labs.data');
     Route::post('/store-assigned-random-test', [manageTestsController::class, 'store_random_test_assigned'])->name('assign.random.test');
     Route::get('/manage-assigned-random-tests', [manageTestsController::class, 'manage_assigned_random_tests'])->name('manage.assigned.random.tests');
-
     Route::get('/assignedrandomtest/edit/{id}', [manageTestsController::class, 'edit_random_assigned_test']);
     Route::post('/update-assigned-random-test', [manageTestsController::class, 'update_random_test_assigned'])->name('update.assigned.random.test');
     Route::delete('/assignedtests/{assignedtest}', [manageTestsController::class, 'delete_assignedtest'])->name('assignedtest.destroy');
-    
-    
-
-    
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');

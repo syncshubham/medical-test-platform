@@ -23,7 +23,7 @@
             </div>
         @endif
     <div class="card-body">
-    <form action="{{route('update.user')}}" method="post">
+    <form action="{{route('update.user')}}" method="post" enctype="multipart/form-data">
         @csrf
         <x-validation-errors style="border: 1.37px solid #b10f0f;
         border-radius: 17px;
@@ -57,6 +57,26 @@
             </select>
         </div>
     </div>
+    @if ($user->profile_photo_path)
+    <div class="form-group row">
+        <p class="text-danger">( Profile photo should be JPG/JPEG/PNG format only withing size limit of 100kb only )</p>
+        <label class="col-form-label col-md-2">Profile Photo</label>
+        <div class="col-md-7">
+            <input type="file" name="profile_photo_path" value="" class="form-control">
+        </div>
+        <a href="{{asset($user->profile_photo_path)}}" target="_blank" style="display:flex;justify-content:center;align-items:center;background-color: rgb(23, 20, 45);border-radius:5px;border:1px soild rgb(234, 234, 234);color:white;font-weight:bold;" class="col-md-3">
+            Current Profile
+        </a>
+    </div>
+    @else
+    <div class="form-group row">
+        <p class="text-danger">( Profile photo should be JPG/JPEG/PNG format only withing size limit of 100kb only )</p>
+        <label class="col-form-label col-md-2">Profile Photo</label>
+        <div class="col-md-10">
+            <input type="file" name="profile_photo_path" value="" class="form-control">
+        </div>
+    </div>
+    @endif
     <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
     </form>
     </div>

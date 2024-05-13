@@ -179,6 +179,8 @@ a {
 a:hover {
 	color: #1e88e5;
 }
+
+
 a:hover,
 a:active,
 a:focus {
@@ -3688,16 +3690,16 @@ html.menu-opened body {
     -webkit-transition: all 0.4s ease;
 }
 .trending-courses .join-now {
-	background-color: #159F46;
-	border: 1px solid #159F46;
+	background-color: var(--dark-color);
+	border: 1px solid var(--ligth-color);
 	color: #fff;
 	font-weight: 500;
 	padding: 7px 29px
 }
 .trending-courses .join-now:hover {
 	color: #fff;
-	background-color: #0db74a;
-	border: 1px solid #0db74a;
+	background-color: #290a5c;
+	border: 1px solid var(--dark-color);
 }
 .trending-courses .course-price {
 	color: #6255A4;
@@ -5331,8 +5333,8 @@ html.menu-opened body {
     -webkit-transition: all 0.5s ease;
 }
 .course-categories-four .sub-categories:hover {
-    background: rgba(235, 148, 129, 0.05);
-	border: 1px solid var(--light-color);
+    /* background: rgba(235, 148, 129, 0.05); */
+	border: 2px solid  #331a00;
 	box-shadow: 0 0 13px rgb(0 0 0 / 30%);
 	transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -5366,8 +5368,8 @@ html.menu-opened body {
 }
 .course-categories-four .sub-categories {
     display: block;
-    padding: 0px;
-	min-height: 305px;
+    padding: 2px;
+	min-height: 270px;
 }
 .course-categories-four .bg-explore {
     background-color: #1F1F1F;

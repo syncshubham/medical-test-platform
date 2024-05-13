@@ -1,10 +1,10 @@
 @extends('platform.layout')
 @section('content')
 <style>
-    .section-search {
+    /* .section-search {
 position: relative !important;
 overflow: hidden !important;
-}
+} */
 
 #bg-video {
 position: absolute;
@@ -26,11 +26,84 @@ align-items: center;" class="section section-search">
     <h1>Search diagnosis tests at <span style="text-shadow:3px 2px 3px white;">Intest Bazar</span></h1>
     <p>Discover the best diagnostic labs & centers, nearest to you.</p>
     </div>
-    
+    <style>
+        .search-results {
+    position: absolute;
+    top: 100%;
+    border-radius: 10px;
+    left: 0;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 0px solid #ccc;
+    border-top: none;
+    background-color: #fefefee8;
+    box-shadow: 0 0 55px 22px #f1e4f6a8;
+    z-index: 1000;
+}
+
+.search-results-item {
+    border-left: 2px solid #41205a;
+    font-family: 'monospace';
+    text-align: left !important;
+    font-size: 0.8rem;
+    padding: 6px;
+    padding-left: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    color: #3a043f;
+}
+
+.search-results-item:hover {
+    border-left: 3px solid rgb(191, 157, 191);
+    font-weight: bold;
+    color: white;
+    background-color: #41205a;
+}
+
+.search-results-item.selected {
+    border-left: 2px solid rgb(191, 157, 191);
+    font-weight: bold;
+    color: white;
+    background-color: #41205a;
+}
+
+.search-results::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .search-results::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #41205a;
+            border: 1px solid #41205a;
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            margin-top: 3px
+        }
+        
+        .search-results::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            border: 1px solid #41205a;
+            background-color: white;
+        }
+
+
+    </style>
     <div class="search-box">
-    <form action="">
+    <form action="{{ route('manualsearch') }}" method="POST">
+        @csrf
     <div class="form-group search-info">
-    <input type="text" class="form-control" placeholder="Enter here your desired diagnosis test name">
+        <input type="text" class="form-control" name="manualsearchterm" placeholder="Search your desired diagnosis test name" 
+        pattern=".{3,}" title="Please enter at least 3 characters" required>
+ 
+    @if ($errors->any())
+    <div id="errorDiv" class="alert alert-danger" style="opacity: 1; transition: opacity 0.5s ease-out;margin-top:10px;">
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+    </div>
+    @endif
+    <div style="margin-top: 10px;display:none;" class="search-results"></div>
+
     </div>
     <button type="submit" class="btn btn-primary search-btn"><i><img src="assets/img/search-submit.png" alt></i> <span>Search</span></button>
     </form>
@@ -39,8 +112,132 @@ align-items: center;" class="section section-search">
     </div>
     </div>
     </section>
+    <script>
+        // Wait for 3 seconds then hide the error message
+        setTimeout(function() {
+            let currentelement = document.getElementById('errorDiv'); 
+            currentelement.style.opacity = '0';
+        }, 3000);
 
+        setTimeout(function() {
+            let currentelement = document.getElementById('errorDiv'); 
+            currentelement.style.display = 'none';
+        }, 3500);
 
+    const searchInput = document.querySelector('.form-control');
+    const searchResults = document.querySelector('.search-results');
+// Function to close the search results
+function closeSearchResults() {
+    searchResults.innerHTML = '';
+    searchResults.style.display ="none";
+}
+    searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            if (query.length >= 0) {
+                fetch(`/search?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+
+                        searchResults.innerHTML = '';
+                        if (data.length > 0) {
+                            console.log("data available")
+                            searchResults.style.display ="block";
+                            data.forEach(result => {
+                                const item = document.createElement('div');
+                                item.textContent = result.name;
+                                item.classList.add('search-results-item');
+                                item.dataset.testId = result.id;
+                                searchResults.appendChild(item);
+                            });
+                        } else {
+                        console.log("data not available")
+                        searchResults.style.display ="block";
+                            const message = document.createElement('div');
+                            message.textContent = 'No results found';
+                            message.style.textAlign ='center';
+                            searchResults.appendChild(message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                    }
+                });
+
+// Event listener for clicking outside the search box
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.form-control')) {
+        
+        closeSearchResults();
+    }
+});
+
+// Event listener for pressing the escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeSearchResults();
+    }
+});
+
+        let selectedIndex = -1;
+
+searchInput.addEventListener('keydown', function(event) {
+    const items = searchResults.querySelectorAll('.search-results-item');
+    const itemCount = items.length;
+
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        selectedIndex = (selectedIndex + 1) % itemCount;
+        updateSelection(items);
+        scrollToSelected(items);
+        updateInputValue(items);
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        selectedIndex = (selectedIndex - 1 + itemCount) % itemCount;
+        updateSelection(items);
+        scrollToSelected(items);
+        updateInputValue(items);
+    }
+});
+
+function updateSelection(items) {
+    items.forEach((item, index) => {
+        if (index === selectedIndex) {
+            item.classList.add('selected');
+        } else {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+function scrollToSelected(items) {
+    const selected = items[selectedIndex];
+    if (selected) {
+        const topOffset = selected.offsetTop;
+        const bottomOffset = selected.offsetTop + selected.offsetHeight;
+        if (bottomOffset > searchResults.scrollTop + searchResults.offsetHeight) {
+            searchResults.scrollTop = bottomOffset - searchResults.offsetHeight;
+        } else if (topOffset < searchResults.scrollTop) {
+            searchResults.scrollTop = topOffset;
+        }
+    }
+}
+
+function updateInputValue(items) {
+    const selected = items[selectedIndex];
+    if (selected) {
+        searchInput.value = selected.textContent.trim();
+    }
+}
+
+searchResults.addEventListener('click', function(event) {
+    const target = event.target.closest('.search-results-item');
+    if (target) {
+        const testId = target.dataset.testId;
+        const url = '{{ route("get.quotes", ":testId") }}'; 
+        window.location.href = url.replace(':testId', testId);
+    }
+});
+
+</script>
 <section class="section how-it-works">
 <div class="container">
 <div class="section-header text-center aos" data-aos="fade-up">
@@ -104,84 +301,29 @@ align-items: center;" class="section section-search">
     </div>
     <div class="popular-categories aos " data-aos="fade-up">
     <div class="row">
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/CBC.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>CBC</h4>
-    <span>Over <b>5 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/CT.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>CT scan</h4>
-        <span>Over <b>8 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/ultrasound.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>Ultrasound</h4>
-        <span>Over <b>4 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/urinalysis.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>Urinalysis</h4>
-        <span>Over <b>5 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/ECG.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>ECG</h4>
-        <span>Over <b>2 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
-    <div class="col-lg-4 col-md-6">
-    <a  >
-    <div class="sub-categories d-flex align-items-center">
-    <div class="categories-img">
-    <img style="width:90%;height:90%;" src="assets/img/home/MRI.jpg" alt>
-    </div>
-    <div class="categories-text ">
-    <h4>MRI</h4>
-        <span>Over <b>6 options</b> Available</span>
-    </div>
-    </div>
-    </a>
-    </div>
+        @foreach ($mostbuyedresults as $mostbuyed)
+        <div class="col-lg-4 col-md-6">
+            <a  >
+            <div class="sub-categories d-flex align-items-center">
+            <div class="categories-img">
+            <a href="{{url('get/quotes', ['id' => $mostbuyed->id])}}">
+            <img style="width:110px;height:80px;" src="{{asset($mostbuyed->test_image)}}" alt>
+            </a>
+            </div>
+            <div class="categories-text ">
+            <a href="{{url('get/quotes', ['id' => $mostbuyed->id])}}">
+            <h4 style="font-size: 1rem">{{$mostbuyed->most_buyed_test_name_short}}</h4>
+             </a>
+            @if ($mostbuyed->parameters > 0)
+            <span>            <a href="{{url('get/quotes', ['id' => $mostbuyed->id])}}"><b>{{$mostbuyed->parameters}} Parameters Covered</b>            </a></span>                
+            @else
+            <span><b>1 Parameters</b> Covered</span>                
+            @endif
+            </div>
+            </div>
+            </a>
+            </div>
+        @endforeach
     </div>
     </div>
     </div>
@@ -190,9 +332,6 @@ align-items: center;" class="section section-search">
 
     <section class="most-popular course-categories-four">
         <div class="container">
-        {{-- <div class="side-four">
-        <img src="assets/img/img-2.png" alt>
-        </div> --}}
         <div class="section-header h-four text-center aos " data-aos="fade-up">
         <span>More tests</span>
         <h2>Buy here as per your requirement</h2>
@@ -200,72 +339,30 @@ align-items: center;" class="section section-search">
         </div>
         <div class="popular-categories aos " data-aos="fade-up">
         <div class="row">
-        <div class="col-lg-3 col-md-4">
-        <a  >
-        <div class="sub-categories bg-design d-flex align-items-center justify-content-center">
-        <div class="sub-categories-group">
-        <div class="categories-img ">
-        <img style="width:12rem;height:8rem;border-radius:6px;" src="assets/img/home/other/bonedensity.jpg" alt>
-        </div>
-        <div class="categories-text text-center">
-        <h4>Bone Density Test</h4>
-        <p class="course-count">1 option Available</p>
-        </div>
-        </div>
-        </div>
-        </a>
-        </div>
-        <div class="col-lg-3 col-md-4">
-        <a  >
-        <div class="sub-categories bg-development d-flex align-items-center justify-content-center">
-        <div class="sub-categories-group">
-        <div class="categories-img ">
-        <img style="width:12rem;height:8rem;border-radius:6px;" src="assets/img/home/other/lipidprofile.webp" alt>
-        </div>
-        <div class="categories-text text-center">
-        <h4>Lipid Profile</h4>
-        <p class="course-count">Over 4 options Available</p>
+        @foreach ($requirementbasistestresults as $requirementbasistests)
+            <div class="col-lg-3 col-md-4">
+            <a  >
+            <div class="sub-categories sub-categories-temp bg-design d-flex align-items-center justify-content-center">
+            <div class="sub-categories-group">
+            <div class="categories-img ">
+                <a href="{{url('get/quotes', ['id' => $requirementbasistests->id])}}">            <img style="width:12rem;height:8rem;border-radius:6px;" src="{{asset($requirementbasistests->test_image)}}" alt></a>
+            </div>
+            <div class="categories-text text-center">
+            <h4><a href="{{url('get/quotes', ['id' => $requirementbasistests->id])}}">{{$requirementbasistests->requirement_basis_test_name_short}}</a></h4>
+            @if ($requirementbasistests->parameters > 0)
+            <p class="course-count">{{$requirementbasistests->parameters}} Parameters Covered</p>                
+            @else
+            <p class="course-count">1 Parameters Covered</p>
+            @endif
+            </div>
+            </div>
+            </div>
+            </a>
+            </div>
+        @endforeach
+        
         </div>
         </div>
-        </div>
-        </a>
-        </div>
-        <div class="col-lg-3 col-md-4">
-        <a  >
-        <div class="sub-categories bg-software d-flex align-items-center justify-content-center">
-        <div class="sub-categories-group">
-        <div class="categories-img ">
-        <img style="width:12rem;height:8rem;border-radius:6px;" src="assets/img/home/other/mammography.png" alt>
-        </div>
-        <div class="categories-text text-center">
-        <h4>Mammography</h4>
-        <p class="course-count">Over 2 options Available</p>
-        </div>
-        </div>
-        </div>
-        </a>
-        </div>
-        <div class="col-lg-3 col-md-4">
-        <a  >
-        <div class="sub-categories bg-business d-flex align-items-center justify-content-center">
-        <div class="sub-categories-group">
-        <div class="categories-img ">
-        <img style="width:12rem;height:8rem;border-radius:6px;" src="assets/img/home/other/thyroid.jpg" alt>
-        </div>
-        <div class="categories-text text-center">
-        <h4>Thyroid Function Test</h4>
-        <p class="course-count">Over 3 options Available</p>
-        </div>
-        </div>
-        </div>
-        </a>
-        </div>
-       
-        </div>
-        </div>
-        {{-- <div class="explore-more text-center aos " data-aos="fade-up">
-        <a   class="btn bg-explore">Show All Categories</a>
-        </div> --}}
         </div>
         </section>
 

@@ -34,13 +34,13 @@
         </span>
         </a>
         <a href="index.html" class="navbar-brand logo">
-        <img src="assets/img/logo/intestlogo.png" style="min-height:4rem;max-height:4rem;" class="img-fluid" alt="Logo">
+        <img src="{{ asset('assets/img/logo/intestlogo.png')}}" style="min-height:4rem;max-height:4rem;" class="img-fluid" alt="Logo">
         </a>
         </div>
         <div class="main-menu-wrapper">
         <div class="menu-header">
         <a href="index.html" class="menu-logo">
-        <img src="assets/img/logo/intestlogo.png" style="min-height:4.6rem;max-height:4.6rem;" class="img-fluid" alt="Logo">
+        <img src="{{ asset('assets/img/logo/intestlogo.png')}}" style="min-height:4.6rem;max-height:4.6rem;" class="img-fluid" alt="Logo">
         </a>
         <a id="menu_close" class="menu-close" href="javascript:void(0);">
         <i class="fas fa-times"></i>
@@ -172,7 +172,7 @@
 
 <div class="footer-widget footer-about">
 <div class="footer-logo">
-<img src="assets/img/logo/intestlogo.png" style="min-height:7rem !important;" alt="logo">
+<img src="{{ asset('assets/img/logo/intestlogo.png')}}" style="min-height:7rem !important;" alt="logo">
 </div>
 <div class="footer-about-content">
 <p>Inspiring Confidence, Delivering Results: Experience the Difference with Our Diagnostic Test Platform.</p>

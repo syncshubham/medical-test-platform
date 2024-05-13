@@ -140,7 +140,7 @@ Version      : 1.0
 	        margin: 30,
 	        nav : false,
 	        nav: true,
-	        loop: true,
+	        loop: false,
 	        responsive: {
 	          	0: {
 	            	items: 1

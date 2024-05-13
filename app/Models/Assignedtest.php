@@ -24,4 +24,9 @@ class Assignedtest extends Model
       {
           return $this->belongsTo(Test::class, 'test_id');
       }
+
+      public function user()
+      {
+        return $this->belongsTo(User::class, 'lab_id', 'id');
+      }
 }

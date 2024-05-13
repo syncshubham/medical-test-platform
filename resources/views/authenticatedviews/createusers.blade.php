@@ -77,7 +77,7 @@
 </script>
 
     <div class="card-body">
-    <form method="post" action="{{ route('create.user') }}">
+    <form method="post" action="{{ route('create.user') }}" enctype="multipart/form-data">
         @csrf
         <x-validation-errors style="border: 1.37px solid #b10f0f;
         border-radius: 17px;
@@ -107,7 +107,14 @@
                 @endforeach
             </select>
         </div>
-    </div>
+        </div>
+        <div class="form-group row">
+            <p class="text-danger">( Profile photo should be JPG/JPEG/PNG format only withing size limit of 100kb only )</p>
+            <label class="col-form-label col-md-2">Profile Photo</label>
+            <div class="col-md-10">
+                <input type="file" name="profile_photo_path" value="" class="form-control">
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-form-label col-md-2">Password</label>
             <div class="col-md-10">

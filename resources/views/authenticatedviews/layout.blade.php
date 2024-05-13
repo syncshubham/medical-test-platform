@@ -158,7 +158,7 @@
 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 <span class="user-img"><div class="avatar avatar-sm">
     <div class="mt-2" x-show="! photoPreview">
-        <img style="height:40px;width:100%;margin-top:-14px !important;border-radius:50%;" src="{{asset(auth()->user()->profile_photo_url)}}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">
+        <img style="height:40px;width:100%;margin-top:-14px !important;border-radius:50%;" src="{{asset(auth()->user()->profile_photo_path)}}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">
     </div>
 </div></span>
 </a>
@@ -166,7 +166,7 @@
 <div class="user-header">
 <div class="avatar avatar-sm">
     <div class="mt-2" x-show="! photoPreview">
-        <img style="height:40px;width:100%;margin-top:-6px !important;border-radius:50%;" src="{{asset(auth()->user()->profile_photo_url)}}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">  
+        <img style="height:40px;width:100%;margin-top:-6px !important;border-radius:50%;" src="{{asset(auth()->user()->profile_photo_path)}}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">  
     </div>
 </div>
 @if(auth()->check())

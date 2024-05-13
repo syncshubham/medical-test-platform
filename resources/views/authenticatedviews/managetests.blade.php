@@ -8,15 +8,9 @@
 <div class="row">
 <div class="col-sm-12">
 <h3 class="page-title">List of Tests</h3>
-{{-- <ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-<li class="breadcrumb-item"><a href="javascript:(0);">Users</a></li>
-<li class="breadcrumb-item active">Mentee</li>
-</ul> --}}
 </div>
 </div>
 </div>
-
 <div class="row">
 <div class="col-sm-12">
 <div class="card">
@@ -42,11 +36,8 @@
 </tr>
 </thead>
 <tbody>
-
-    <tr>
-
-
-        </tr>
+<tr>
+</tr>
 </tbody>
 </table>
 </div>
@@ -67,12 +58,12 @@
             ajax: '{{ route('manage.tests') }}',
             columns: [
                 { data: 'id', name: 'id', orderable: false  }, // Index column
-        {data:'name', name:'name'},
-        {data:'parameters', name:'parameters'},
-        {data:'action', name:'action', orderable:false, searchable:false},
-            ]
-        });
-    });
+                {data:'name', name:'name'},
+                {data:'parameters', name:'parameters'},
+                {data:'action', name:'action', orderable:false, searchable:false},
+                    ]
+                });
+            });
 </script>
 
 <!-- Include SweetAlert2 script -->
@@ -103,8 +94,4 @@
         });
     });
 </script>
-
-
-
-
 @endsection
