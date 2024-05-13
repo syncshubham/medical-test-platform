@@ -1,5 +1,8 @@
 @extends('platform.layout')
 @section('content')
+<head>
+    <title>Buy online medical tests - Intestbazar</title>
+</head>
 <style>
     /* .section-search {
 position: relative !important;
